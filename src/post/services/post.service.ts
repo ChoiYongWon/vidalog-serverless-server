@@ -67,10 +67,10 @@ export class PostService {
     try{
       const currentDate = new Date()
       if(new Date(postInfo.date) > currentDate){
-        throw Error()
+        throw Error("Cannot upload post to future")
       }
       const localPost = await this.postRepository.findOne({ user: postInfo.userId, date: postInfo.date})
-      if(localPost) throw Error()
+      if(localPost) throw Error("Post already exist")
       const imageUrls = await this.s3Service.uploadImageToS3(postInfo.imageFiles)
       const post: Post = {
         imageUrls: imageUrls,

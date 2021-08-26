@@ -1,1 +1,1 @@
-# Vidalog Server 저장소
+# Vidalog Server 저장소입니다

@@ -19,6 +19,7 @@ export class S3Service {
   async uploadImageToS3(files: any[]): Promise<string[]>{
     const imageUrl = {};
     for(let i in files){
+      console.log(files[i].originalname,"size : ",files[i].size)
       let params = {
         Bucket: process.env.S3_BUCKET,
         ContentType: files[i].mimetype,

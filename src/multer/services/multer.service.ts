@@ -4,7 +4,7 @@ import { MulterModuleOptions, MulterOptionsFactory } from '@nestjs/platform-expr
 @Injectable()
 export class MulterService implements  MulterOptionsFactory{
 
-  private FILE_LIMIT_SIZE = 10485760 //10mb
+  private FILE_LIMIT_SIZE = 20971520 //20mb
 
   constructor() {}
 

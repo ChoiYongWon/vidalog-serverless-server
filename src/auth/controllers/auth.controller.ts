@@ -30,13 +30,13 @@ export class AuthController {
   @UseGuards(LoginAuthGuard)
   @Post("login")
   async login(@Request() req){
-    this.logger.log("login 요청 id : "+req.user.id)
+    this.logger.log("Login 요청 id : "+req.user.id)
     return await this.authService.login(req.user)
   }
 
   @Post("logout")
   async logout(@Request() req, @Body() body:LogoutRequestDto){
-    this.logger.log("logout 요청 id : "+req.user.id)
+    this.logger.log("Logout 요청 id : "+req.user.id)
     return await this.authService.logout(req.user.id, body.refreshToken)
   }
 

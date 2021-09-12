@@ -21,8 +21,9 @@ export class S3Service {
     for(let i in files){
       let params = {
         Bucket: process.env.S3_BUCKET,
-        ACL: process.env.S3_ACL,
-        Body: Buffer.from(files[i].buffer, "binary"),
+        ContentType: files[i].mimetype,
+        ACL: "public-read",
+        Body: files[i].buffer,
         Key: `${uuidv4()}.${files[i].originalname.split(".").reverse()[0]}`,
       }
       const url = await this.s3.upload(params).promise()

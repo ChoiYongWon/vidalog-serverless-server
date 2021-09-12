@@ -13,6 +13,9 @@ provider:
   runtime: nodejs14.x
   stage: prod
   region: ap-northeast-2
+  apiGateway:
+    binaryMediaTypes:
+      - '*/*'
 
 functions:
   main:

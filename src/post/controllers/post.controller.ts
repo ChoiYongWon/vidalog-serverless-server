@@ -42,6 +42,7 @@ export class PostController {
   ]))
   async uploadPost(@UploadedFiles() files: Express.Multer.File[], @Body() body, @Request() req) {
     //TODO multiform/data DTO 작성
+    console.log("uploadPost 요청")
     if (!files["images"] || !body.content || !body.date || !body.location) throw new UploadBadRequestException()
     const uploadPostDto: UploadPostRequestDto = {
       imageFiles: files["images"],

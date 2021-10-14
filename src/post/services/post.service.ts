@@ -1,6 +1,5 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { S3Service } from '../../s3/services/s3.service';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from '../repositories/post.entity';
 import { Between, Repository } from 'typeorm';
 import { UploadPostRequestDto } from '../dtos/request/UploadPostRequest.dto';
@@ -14,7 +13,7 @@ export class PostService {
     private readonly logger= new Logger(PostService.name)
 
     constructor(
-    @InjectRepository(Post)
+    @Inject("POST_REPOSITORY")
     private postRepository: Repository<Post>,
     private s3Service: S3Service,
 
@@ -67,6 +66,7 @@ export class PostService {
     try{
       const currentDate = new Date()
       if(new Date(postInfo.date) > currentDate){
+        this.logger.log("전달받은 날짜 : "+new Date(postInfo.date)+"\n현재 서버 날짜 : "+currentDate)
         throw Error("Cannot upload post to future")
       }
       const localPost = await this.postRepository.findOne({ user: postInfo.userId, date: postInfo.date})

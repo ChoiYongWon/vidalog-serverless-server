@@ -6,13 +6,15 @@ import { MulterService } from '../multer/services/multer.service';
 import { S3Module } from '../s3/s3.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Post } from './repositories/post.entity';
+import { DatabaseModule } from '../db/db.module';
+import { postProviders } from './repositories/post.providers';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Post]), MulterModule.registerAsync({
+  imports: [DatabaseModule, MulterModule.registerAsync({
     useClass: MulterService
   }), S3Module],
   controllers: [PostController],
-  providers: [PostService],
+  providers: [...postProviders, PostService],
   exports: [PostService]
 })
 export class PostModule {}

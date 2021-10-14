@@ -7,9 +7,11 @@ import { UserModule } from '../user/user.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { ConfigService } from '@nestjs/config';
+import { DatabaseModule } from '../db/db.module';
+import { emailProviders } from './repositories/email.providers';
 
 @Module({
-  imports: [UserModule, TypeOrmModule.forFeature([Email]), MailerModule.forRootAsync({
+  imports: [DatabaseModule ,UserModule, MailerModule.forRootAsync({
     inject:[ConfigService],
     useFactory: ()=>({
       transport: {
@@ -30,7 +32,7 @@ import { ConfigService } from '@nestjs/config';
 
   })],
   controllers: [EmailController],
-  providers: [EmailService],
+  providers: [...emailProviders, EmailService],
   exports: [EmailService]
 })
 export class EmailModule {}

@@ -1,5 +1,5 @@
 import { Body, Controller, Post, UploadedFiles, UseInterceptors, Request, Get, Query } from '@nestjs/common';
-import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { FileFieldsInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { PostService } from '../services/post.service';
 import { UploadBadRequestException } from '../exceptions/UploadBadRequest.exception';
 import { UploadPostRequestDto } from '../dtos/request/UploadPostRequest.dto';
@@ -37,15 +37,14 @@ export class PostController {
   }
 
   @Post('uploadPost')
-  @UseInterceptors(FileFieldsInterceptor([
-    { name: 'images', maxCount: 10 },
-  ]))
+  @UseInterceptors(FilesInterceptor("images")
+  )
   async uploadPost(@UploadedFiles() files: Express.Multer.File[], @Body() body, @Request() req) {
     //TODO multiform/data DTO 작성
-    console.log("uploadPost 요청")
-    if (!files["images"] || !body.content || !body.date || !body.location) throw new UploadBadRequestException()
+    console.log("uploadPost 요청", files)
+    if (!files || !body.content || !body.date || !body.location) throw new UploadBadRequestException()
     const uploadPostDto: UploadPostRequestDto = {
-      imageFiles: files["images"],
+      imageFiles: files,
       userId: req.user.id,
       date: body.date,
       location: body.location,

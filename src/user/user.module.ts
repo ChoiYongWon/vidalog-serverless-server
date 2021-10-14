@@ -5,9 +5,11 @@ import { User } from './repositories/user.entity';
 import { UserController } from './controllers/user.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { DatabaseModule } from '../db/db.module';
+import { userProviders } from './repositories/user.providers';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), JwtModule.registerAsync({
+  imports: [DatabaseModule , JwtModule.registerAsync({
     inject:[ConfigService],
     useFactory:()=>({
       secret : process.env.AUTH_ACCESS_TOKEN_SECRET,
@@ -17,7 +19,7 @@ import { ConfigService } from '@nestjs/config';
     })
 
   })],
-  providers: [UserService],
+  providers: [...userProviders, UserService],
   exports: [UserService],
   controllers: [UserController]
 })

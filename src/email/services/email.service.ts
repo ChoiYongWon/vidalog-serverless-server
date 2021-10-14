@@ -1,5 +1,4 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Inject, Injectable } from '@nestjs/common';
 import { Email } from '../repositories/email.entity';
 import { Repository } from 'typeorm';
 import { UserService } from '../../user/services/user.service';
@@ -11,7 +10,7 @@ import { VerifyCodeResponseDto } from '../dtos/response/VerifyCodeResponse.dto';
 @Injectable()
 export class EmailService {
   constructor(
-    @InjectRepository(Email)
+    @Inject("EMAIL_REPOSITORY")
     private emailRepository: Repository<Email>,
     private userService: UserService,
     private readonly mailerService: MailerService

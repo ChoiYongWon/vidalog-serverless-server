@@ -13,9 +13,9 @@ export class MulterService implements  MulterOptionsFactory{
     return {
       // storage: multerS3Storage,
       fileFilter: this.fileFilter,
-      limits: {
-        fileSize: this.FILE_LIMIT_SIZE
-      }
+      // limits: {
+      //   fileSize: this.FILE_LIMIT_SIZE
+      // }
     }
   }
 

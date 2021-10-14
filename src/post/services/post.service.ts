@@ -64,7 +64,8 @@ export class PostService {
   //일기 업로드
   async uploadPost(postInfo: UploadPostRequestDto){
     try{
-      const currentDate = new Date()
+      const date = new Date()
+      const currentDate = new Date(date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate())
       if(new Date(postInfo.date) > currentDate){
         this.logger.log("전달받은 날짜 : "+new Date(postInfo.date)+"\n현재 서버 날짜 : "+currentDate)
         throw Error("Cannot upload post to future")

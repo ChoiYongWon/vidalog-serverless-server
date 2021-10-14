@@ -48,8 +48,9 @@ export class PostService {
   }
 
   async getPostedDateByYearFromNow(userId:string){
-    const prevDate = new Date()
-    const currentDate = new Date()
+    const date = new Date()
+    const prevDate = new Date(date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate())
+    const currentDate = new Date(date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate())
     //일년 뒤로 날짜 설정
     prevDate.setFullYear(prevDate.getFullYear() - 1); prevDate.setDate(prevDate.getDate() - currentDate.getDay()); //371을 맞추기 위해
     const res = await this.postRepository.find({ user: userId, date: Between(prevDate, currentDate) })

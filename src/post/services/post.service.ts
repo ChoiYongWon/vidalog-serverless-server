@@ -33,7 +33,7 @@ export class PostService {
     //한달 뒤로 날짜 설정
     const res = await this.postRepository.find({ user: userId, date: Between(fromDate, toDate) })
     if(!res) throw new PostNotFoundException()
-    // this.logger.log(date.toLocaleDateString()+"부터 "+toDate.toLocaleDateString()+"까지 조회 했습니다.")
+    this.logger.log(fromDate.toLocaleString()+"부터 "+toDate.toLocaleString()+"까지 조회함.")
     const result = res.map((data)=>{
       const date = data.date.toLocaleDateString().split("/")
       return { date: `${date[2]}-${date[0]}-${date[1]}`, imgUrl: data.imageUrls[0] }

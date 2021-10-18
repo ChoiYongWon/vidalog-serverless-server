@@ -27,11 +27,13 @@ export class PostService {
 
   //달별로 조회
   async getPostByMonth(userId: string, date:Date){
-    const nextDate = new Date(date)
+    const fromDate = new Date(date);  fromDate.setHours(0);
+    const toDate = new Date(date);    toDate.setMonth(toDate.getMonth() + 1); toDate.setDate(toDate.getDate() - 1); toDate.setHours(0);
+
     //한달 뒤로 날짜 설정
-    nextDate.setMonth(nextDate.getMonth() + 1); nextDate.setDate(nextDate.getDate() - 1)
-    const res = await this.postRepository.find({ user: userId, date: Between(date, nextDate) })
+    const res = await this.postRepository.find({ user: userId, date: Between(fromDate, toDate) })
     if(!res) throw new PostNotFoundException()
+    // this.logger.log(date.toLocaleDateString()+"부터 "+toDate.toLocaleDateString()+"까지 조회 했습니다.")
     const result = res.map((data)=>{
       const date = data.date.toLocaleDateString().split("/")
       return { date: `${date[2]}-${date[0]}-${date[1]}`, imgUrl: data.imageUrls[0] }
